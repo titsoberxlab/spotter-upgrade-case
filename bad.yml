@@ -3,3 +3,4 @@
   sudo: true
   task:
     - debug: print something
+    - debug: print something
