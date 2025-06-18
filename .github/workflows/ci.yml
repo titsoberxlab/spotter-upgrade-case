@@ -3,9 +3,11 @@ on: push
 permissions:
   contents: read
   security-events: write
+
 jobs:
   test:
     runs-on: ubuntu-22.04
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -16,15 +18,18 @@ jobs:
           SPOTTER_API_TOKEN: ${{ secrets.SPOTTER_TOKEN }}
         with:
           ansible_version: 2.16
-#          profile: security
-#          skip_checks: E001
           project_id: ${{ secrets.SPOTTER_PROJECT }}
-#          ansible_version: 2.15
-
           sarif_file: example.sarif
         continue-on-error: true
 
-      - name: Check Sarif
+      - name: Rename SARIF tool to force all alerts
+        run: |
+          TIMESTAMP=$(date +%s)
+          TOOL_NAME="spotter-custom-${TIMESTAMP}"
+          jq ".runs[].tool.driver.name = \"${TOOL_NAME}\"" example.sarif > example-updated.sarif
+        shell: bash
+
+      - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: example.sarif
+          sarif_file: example-updated.sarif
