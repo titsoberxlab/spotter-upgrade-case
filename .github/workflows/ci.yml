@@ -1,0 +1,30 @@
+name: test
+on: push
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Run Ansible scan with SARIF output
+        uses: xlab-steampunk/spotter-action@master
+        env:
+          SPOTTER_API_TOKEN: ${{ secrets.SPOTTER_TOKEN }}
+        with:
+          ansible_version: 2.15
+#          profile: security
+#          skip_checks: E001
+#          project_id: 564543543
+#          ansible_version: 2.15
+
+          sarif_file: example.sarif
+        continue-on-error: true
+
+      - name: Check Sarif
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: example.sarif
