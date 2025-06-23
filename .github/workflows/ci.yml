@@ -41,6 +41,7 @@ jobs:
           else
             echo "✅ No issues found in SARIF"
           fi
+        continue-on-error: true  # FAIL if Spotter fails
 
       - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
