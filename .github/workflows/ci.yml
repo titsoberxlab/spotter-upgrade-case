@@ -1,5 +1,6 @@
 name: test
 on: push
+
 permissions:
   contents: read
   security-events: write
@@ -18,19 +19,31 @@ jobs:
           SPOTTER_API_TOKEN: ${{ secrets.SPOTTER_TOKEN }}
         with:
           ansible_version: 2.16
+          profile: gitlab
           project_id: ${{ secrets.SPOTTER_PROJECT }}
           sarif_file: example.sarif
-        continue-on-error: true
+        continue-on-error: false  # FAIL if Spotter fails
 
-      - name: Rename SARIF tool to force all alerts
+      - name: Print SARIF results and fail if issues found
         run: |
-          TIMESTAMP=$(date +%s)
-          TOOL_NAME="spotter-custom-${TIMESTAMP}"
-          jq ".runs[].tool.driver.name = \"${TOOL_NAME}\"" example.sarif > example-updated.sarif
-        shell: bash
+          if [ ! -f example.sarif ]; then
+            echo "❌ SARIF file not found!"
+            exit 1
+          fi
+
+          ERRORS=$(jq '.runs[].results | length' example.sarif)
+          echo "🔍 Found $ERRORS issues in SARIF"
+
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "🛑 Code scanning issues detected:"
+            jq -r '.runs[].results[] | "⚠️ \(.message.text) at \(.locations[0].physicalLocation.artifactLocation.uri):\(.locations[0].physicalLocation.region.startLine)"' example.sarif
+            exit 1
+          else
+            echo "✅ No issues found in SARIF"
+          fi
 
       - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: example-updated.sarif
+          sarif_file: example.sarif
           category: force-all-${{ github.run_id }}
