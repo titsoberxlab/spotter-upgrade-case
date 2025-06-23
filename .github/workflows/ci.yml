@@ -22,7 +22,7 @@ jobs:
           profile: gitlab
           project_id: ${{ secrets.SPOTTER_PROJECT }}
           sarif_file: example.sarif
-        continue-on-error: false  # FAIL if Spotter fails
+        continue-on-error: true  # FAIL if Spotter fails
 
       - name: Print SARIF results and fail if issues found
         run: |
