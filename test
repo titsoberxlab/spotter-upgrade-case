@@ -1,0 +1,75 @@
+<testsuites>
+  <testsuite name="CheckEnum" tests="1" errors="1">
+    <testcase name="E601-value-not-in-enum-choices[0]" classname="CheckEnum" id="E601" file="roles/webpage/tasks/main.yml">
+      <error message="roles/webpage/tasks/main.yml:44:3: ERROR: [E601] Value of 'state' in module 'docker_container' is set to 'restarted' which does not match any of the possible choices listed in ['absent', 'present', 'started', 'stopped']. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/docker_container/None/module/ for more info." type="ERROR" />
+    </testcase>
+  </testsuite>
+  <testsuite name="CheckFQCN" tests="2" errors="2">
+    <testcase name="W908-module-include-deprecated[0]" classname="CheckFQCN" id="W908" file="playbook_deprecated.yml">
+      <error message="playbook_deprecated.yml:2:3: WARNING: [W908] Module 'include' is deprecated. Use import_playbook, include_role, include_tasks instead." type="WARNING" />
+    </testcase>
+    <testcase name="E901-potential-name-clash[1]" classname="CheckFQCN" id="E901" file="playbook_deprecated.yml">
+      <error message="playbook_deprecated.yml:5:3: ERROR: [E901] Potential name clashes for ali_instance_facts among ansible.builtin.ali_instance_facts, ansible.builtin.ali_instance_facts. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/ali_instance_facts/None/module/ for more info." type="ERROR" />
+    </testcase>
+  </testsuite>
+  <testsuite name="CheckFile" tests="3" errors="3">
+    <testcase name="H805-no-mode[0]" classname="CheckFile" id="H805" file="roles/nginx-with-ssl/tasks/main.yml">
+      <error message="roles/nginx-with-ssl/tasks/main.yml:56:3: HINT: [H805] For module 'template', consider explicitly using the 'mode' parameter as a best practice. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/template/None/module/ for more info." type="HINT" />
+    </testcase>
+    <testcase name="H805-no-mode[1]" classname="CheckFile" id="H805" file="roles/webpage/tasks/main.yml">
+      <error message="roles/webpage/tasks/main.yml:2:3: HINT: [H805] For module 'file', consider explicitly using the 'mode' parameter as a best practice. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/file/None/module/ for more info." type="HINT" />
+    </testcase>
+    <testcase name="H805-no-mode[2]" classname="CheckFile" id="H805" file="roles/webpage/tasks/main.yml">
+      <error message="roles/webpage/tasks/main.yml:18:3: HINT: [H805] For module 'template', consider explicitly using the 'mode' parameter as a best practice. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/template/None/module/ for more info." type="HINT" />
+    </testcase>
+  </testsuite>
+  <testsuite name="CheckInlineParameters" tests="1" errors="1">
+    <testcase name="H1001-inline-parameters[0]" classname="CheckInlineParameters" id="H1001" file="roles/nginx-with-ssl/tasks/main.yml">
+      <error message="roles/nginx-with-ssl/tasks/main.yml:19:3: HINT: [H1001] Inline passing of parameters is not good practice." type="HINT" />
+    </testcase>
+  </testsuite>
+  <testsuite name="CheckJinjaSpacing" tests="1" errors="1">
+    <testcase name="H2704-jinja-spacing[0]" classname="CheckJinjaSpacing" id="H2704" file="roles/nginx-with-ssl/tasks/main.yml">
+      <error message="roles/nginx-with-ssl/tasks/main.yml:30:3: HINT: [H2704] Expression '{{ansible_hostname}}' is missing a space after '{{' or before '}}'." type="HINT" />
+    </testcase>
+  </testsuite>
+  <testsuite name="CheckParameters" tests="9" errors="9">
+    <testcase name="E006-required-parameter-missing-env-fallback-no-success[0]" classname="CheckParameters" id="E006" file="playbook_deprecated.yml">
+      <error message="playbook_deprecated.yml:5:3: ERROR: [E006] Required parameter 'alicloud_access_key' was not set in module 'ali_instance_facts'. Environment fallback was unsuccessful as variable 'ALICLOUD_ACCESS_KEY' is not set. If you decide to set the environment variable remember to do it on other configuration systems too. Another way is to set the parameter in task directly. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/ali_instance_facts/None/module/ for more info." type="ERROR" />
+    </testcase>
+    <testcase name="E006-required-parameter-missing-env-fallback-no-success[1]" classname="CheckParameters" id="E006" file="playbook_deprecated.yml">
+      <error message="playbook_deprecated.yml:5:3: ERROR: [E006] Required parameter 'alicloud_secret_key' was not set in module 'ali_instance_facts'. Environment fallback was unsuccessful as variable 'ALICLOUD_SECRET_KEY' is not set. If you decide to set the environment variable remember to do it on other configuration systems too. Another way is to set the parameter in task directly. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/ali_instance_facts/None/module/ for more info." type="ERROR" />
+    </testcase>
+    <testcase name="H004-deprecated-parameter[2]" classname="CheckParameters" id="H004" file="playbook_deprecated.yml">
+      <error message="playbook_deprecated.yml:5:3: HINT: [H004] Parameter 'region' is an alias for parameter 'alicloud_region' in module 'ali_instance_facts'. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/ali_instance_facts/None/module/ for more info." type="HINT" />
+    </testcase>
+    <testcase name="H004-deprecated-parameter[3]" classname="CheckParameters" id="H004" file="roles/nginx-with-ssl/tasks/main.yml">
+      <error message="roles/nginx-with-ssl/tasks/main.yml:30:3: HINT: [H004] Parameter 'commonName' is an alias for parameter 'common_name' in module 'openssl_csr'. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/openssl_csr/None/module/ for more info." type="HINT" />
+    </testcase>
+    <testcase name="W008-type-coercion[4]" classname="CheckParameters" id="W008" file="roles/nginx-with-ssl/tasks/main.yml">
+      <error message="roles/nginx-with-ssl/tasks/main.yml:43:3: WARNING: [W008] Parameter 'valid_in' coerced from 'int' to 'str' in module 'openssl_certificate'. This may cause unexpected behaviour. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/openssl_certificate/None/module/ for more info." type="WARNING" />
+    </testcase>
+    <testcase name="H004-deprecated-parameter[5]" classname="CheckParameters" id="H004" file="roles/system/tasks/main.yml">
+      <error message="roles/system/tasks/main.yml:57:7: HINT: [H004] Parameter 'policy' is an alias for parameter 'default' in module 'ufw'. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/ufw/None/module/ for more info." type="HINT" />
+    </testcase>
+    <testcase name="H004-deprecated-parameter[6]" classname="CheckParameters" id="H004" file="roles/system/tasks/main.yml">
+      <error message="roles/system/tasks/main.yml:63:7: HINT: [H004] Parameter 'port' is an alias for parameter 'to_port' in module 'ufw'. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/ufw/None/module/ for more info." type="HINT" />
+    </testcase>
+    <testcase name="H004-deprecated-parameter[7]" classname="CheckParameters" id="H004" file="roles/webpage/tasks/main.yml">
+      <error message="roles/webpage/tasks/main.yml:34:3: HINT: [H004] Parameter 'ports' is an alias for parameter 'published_ports' in module 'docker_container'. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/docker_container/None/module/ for more info." type="HINT" />
+    </testcase>
+    <testcase name="H004-deprecated-parameter[8]" classname="CheckParameters" id="H004" file="roles/webpage/tasks/main.yml">
+      <error message="roles/webpage/tasks/main.yml:44:3: HINT: [H004] Parameter 'ports' is an alias for parameter 'published_ports' in module 'docker_container'. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/docker_container/None/module/ for more info." type="HINT" />
+    </testcase>
+  </testsuite>
+  <testsuite name="CheckRedirects" tests="1" errors="1">
+    <testcase name="E1300-deprecated-module[0]" classname="CheckRedirects" id="E1300" file="playbook_deprecated.yml">
+      <error message="playbook_deprecated.yml:5:3: ERROR: [E1300] Module 'ali_instance_facts' is deprecated. View docs at https://spotter.steampunk.si/plugin-docs/ansible/builtin/ali_instance_facts/None/module/ for more info." type="ERROR" />
+    </testcase>
+  </testsuite>
+  <testsuite name="CheckUnnamedPlay" tests="1" errors="1">
+    <testcase name="H1601-unnamed-play[0]" classname="CheckUnnamedPlay" id="H1601" file="playbook.yml">
+      <error message="playbook.yml:2:3: HINT: [H1601] Plays should always be named using the name parameter." type="HINT" />
+    </testcase>
+  </testsuite>
+</testsuites>
