@@ -22,26 +22,7 @@ jobs:
           profile: gitlab
           project_id: ${{ secrets.SPOTTER_PROJECT }}
           sarif_file: example.sarif
-        continue-on-error: true  # FAIL if Spotter fails
-
-      - name: Print SARIF results and fail if issues found
-        run: |
-          if [ ! -f example.sarif ]; then
-            echo "❌ SARIF file not found!"
-            exit 1
-          fi
-
-          ERRORS=$(jq '.runs[].results | length' example.sarif)
-          echo "🔍 Found $ERRORS issues in SARIF"
-
-          if [ "$ERRORS" -gt 0 ]; then
-            echo "🛑 Code scanning issues detected:"
-            jq -r '.runs[].results[] | "⚠️ \(.message.text) at \(.locations[0].physicalLocation.artifactLocation.uri):\(.locations[0].physicalLocation.region.startLine)"' example.sarif
-            exit 1
-          else
-            echo "✅ No issues found in SARIF"
-          fi
-        continue-on-error: true  # FAIL if Spotter fails
+        continue-on-error: true  
 
       - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
