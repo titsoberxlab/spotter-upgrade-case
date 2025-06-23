@@ -22,15 +22,10 @@ jobs:
           sarif_file: example.sarif
         continue-on-error: true
 
-      - name: Rename SARIF tool to force all alerts
-        run: |
-          TIMESTAMP=$(date +%s)
-          TOOL_NAME="spotter-custom-${TIMESTAMP}"
-          jq ".runs[].tool.driver.name = \"${TOOL_NAME}\"" example.sarif > example-updated.sarif
-        shell: bash
+      
 
       - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: example-updated.sarif
+          sarif_file: example.sarif
           category: spotter
